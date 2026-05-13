@@ -22,7 +22,7 @@ def create_app():
 
     app = Flask(__name__)
     app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv(
-        "DATABASE_URL", "postgresql://postgres:postgres@db:5432/hf_explorer"
+        "DATABASE_URL", "postgresql+psycopg://postgres:postgres@db:5432/hf_explorer"
     )
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 

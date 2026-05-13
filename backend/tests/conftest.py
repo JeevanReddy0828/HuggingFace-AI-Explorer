@@ -1,17 +1,23 @@
+import os
 import pytest
-from app import create_app, db as _db
+
+os.environ.setdefault(
+    "DATABASE_URL",
+    "postgresql+psycopg://postgres:postgres@localhost:5432/hf_explorer_test",
+)
+
+from app import create_app, db as _db  # noqa: E402
 
 
 @pytest.fixture(scope="session")
 def app():
     app = create_app()
     app.config["TESTING"] = True
-    app.config["SQLALCHEMY_DATABASE_URI"] = (
-        "postgresql://postgres:postgres@localhost:5432/hf_explorer_test"
-    )
     with app.app_context():
         _db.create_all()
         yield app
+        _db.session.remove()
+        _db.engine.dispose()
         _db.drop_all()
 
 
