@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm --version)",
+      "Bash(npm install *)",
+      "Bash(npm audit *)",
+      "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); [print\\(v['severity'], v['name'], '-', v['title']\\) for v in d.get\\('vulnerabilities',{}\\).values\\(\\)]\")",
+      "Bash(New-Item -ItemType Directory -Path \"E:\\\\projects\\\\hugging face ai explorer\\\\frontend\\\\public\" -Force)",
+      "Bash(Out-Null)",
+      "Bash(New-Item -ItemType File -Path \"E:\\\\projects\\\\hugging face ai explorer\\\\frontend\\\\public\\\\.gitkeep\" -Force)",
+      "PowerShell(New-Item -ItemType Directory -Path \"E:\\\\projects\\\\hugging face ai explorer\\\\frontend\\\\public\" -Force)",
+      "PowerShell(New-Item -ItemType File -Path \"E:\\\\projects\\\\hugging face ai explorer\\\\frontend\\\\public\\\\.gitkeep\" -Force)",
+      "Bash(mkdir -p \"E:\\\\projects\\\\hugging face ai explorer\\\\frontend\\\\src\\\\app\\\\api\\\\[...path]\")",
+      "Bash(Get-ChildItem -Path \"E:\\\\projects\\\\hugging face ai explorer\" -Recurse -Force)",
+      "Bash(Select-Object -First 50 FullName)",
+      "Bash(xargs cat)"
+    ]
+  }
+}
