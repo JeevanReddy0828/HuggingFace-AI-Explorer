@@ -7,11 +7,8 @@ export async function register() {
   }
 }
 
-export const onRequestError = async (
-  err: unknown,
-  request: Parameters<typeof import("@sentry/nextjs").captureRequestError>[1],
-  context: Parameters<typeof import("@sentry/nextjs").captureRequestError>[2]
-) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const onRequestError = async (...args: any[]) => {
   const Sentry = await import("@sentry/nextjs");
-  Sentry.captureRequestError(err, request, context);
+  Sentry.captureRequestError(...(args as Parameters<typeof Sentry.captureRequestError>));
 };

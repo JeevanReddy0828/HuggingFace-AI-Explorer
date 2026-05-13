@@ -10,6 +10,7 @@ jobs:
   backend:
     name: Backend (Python / Flask)
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     services:
       postgres:
@@ -37,24 +38,24 @@ jobs:
 
       - name: Install dependencies
         working-directory: backend
-        run: pip install -r requirements.txt pytest pytest-cov
+        run: pip install -r requirements.txt pytest pytest-cov pytest-timeout
 
       - name: Run migrations
         working-directory: backend
         env:
-          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/hf_explorer_test
+          DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/hf_explorer_test
         run: flask --app wsgi:app db upgrade
 
       - name: Run tests
         working-directory: backend
         env:
-          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/hf_explorer_test
-          FLASK_ENV: testing
-        run: pytest --cov=app --cov-report=term-missing -v
+          DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/hf_explorer_test
+        run: pytest --cov=app --cov-report=term-missing -v --timeout=30
 
   frontend:
     name: Frontend (Next.js / TypeScript)
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - uses: actions/checkout@v4
@@ -80,13 +81,13 @@ jobs:
       - name: Build
         working-directory: frontend
         env:
-          NEXT_PUBLIC_API_URL: http://localhost:5000
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         run: npm run build
 
   docker:
     name: Docker Compose build
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     needs: [backend, frontend]
 
     steps:
